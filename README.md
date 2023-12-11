@@ -1,5 +1,5 @@
 # Project 3 - Worksheet Generator
-Personal Project that generates Mathematics worksheets on different topics using LaTeX.
+Personal Project that generates worksheets on different Mathematics topics using LaTeX.
 
 ## Skills
 LaTeX | Mathematics
