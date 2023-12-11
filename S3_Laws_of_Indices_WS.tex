@@ -1,0 +1,128 @@
+\documentclass[12pt,a4paper, addpoints] {exam}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{calculator}
+\usepackage{CJK}
+\usepackage{datetime} \ddmmyyyydate
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{ifthen}
+\usepackage[top=2cm,bottom=2cm,left=1cm,right=1cm]{geometry}	%define the header and footer margin
+\usepackage{comment}
+\usepackage[nomessages]{fp}
+
+%Express in Positive Indices
+\newcommand{\posIn}[2]{
+        \pgfmathtruncatemacro{\a}{#1}
+	\pgfmathtruncatemacro{\b}{#2}
+        \pgfmathtruncatemacro{\absA}{abs(\a)}
+	\pgfmathtruncatemacro{\absB}{abs(\b)}
+        \ifthenelse{\a=0}{\ifthenelse{\b>0}{y^{\ifthenelse{\absB=1}{}{\absB}}} %x=0, y pos
+        {\frac{1}{y^{\ifthenelse{\absB=1}{}{\absB}}}}} %x=0, y neg
+        {\ifthenelse{\b=0}{\ifthenelse{\a>0}{a^{\ifthenelse{\absA=1}{}{\absA}}} %x pos, y=0
+        {\frac{1}{x^{\ifthenelse{\absA=1}{}{\absA}}}}} %x neg, y=0
+        {\ifthenelse{\a>0}
+        {\ifthenelse{\b>0}{x^{\ifthenelse{\absA=1}{}{\absA}}y^{\ifthenelse{\absB=1}{}{\absB}}} %x pos, y pos
+        {\frac{x^{\ifthenelse{\absA=1}{}{\absA}}}{y^{\ifthenelse{\absB=1}{}{\absB}}}}} %x pos, y neg
+        {\ifthenelse{\b>0}{\frac{y^{\ifthenelse{\absB=1}{}{\absB}}}{x^{\ifthenelse{\absA=1}{}{\absA}}}} %x neg, y pos
+        {\frac{1}{x^{\ifthenelse{\absA=1}{}{\absA}}y^{\ifthenelse{\absB=1}{}{\absB}}}}}} %x neg, y neg
+        }
+}
+
+
+
+\begin{document}
+\setlength\dottedlinefillheight{0.79cm}
+\footer{}
+       {P.\thepage}{}
+       %{\today}
+\headrule 
+\footrule
+
+\printanswers %comment this line to hide the answers
+
+\header	{\textsf{S3 Mathematics} \\ \textsf{Laws of Indices - Revision WS}}
+		{}
+		{\textsf{Name:} \underline{\hspace{2.85cm}}\\
+                  \hfill \textsf{Class:} \underline{\hspace{1.8cm}}(\qquad)}
+\pgfmathsetseed{\year} %change the seed to get different sets of questions
+\paragraph*{Simplify and express the following expressions with positive indices.}
+
+	\begin{questions}
+        %Laws of Indices: Type I
+	\foreach \i in {1,...,5}{  %change the last number to get more questions
+		\pgfmathrandominteger{\m}{-5}{5}
+		\ifthenelse{\m=0}{\pgfmathrandominteger{\m}{1}{5}}{}
+            \pgfmathrandominteger{\n}{-5}{5}
+		\ifthenelse{\n=0}{\pgfmathrandominteger{\n}{1}{5}}{}
+            \pgfmathrandominteger{\p}{-5}{5}
+		\ifthenelse{\p=0}{\pgfmathrandominteger{\p}{1}{5}}{}
+		\pgfmathrandominteger{\q}{-5}{5}
+		\ifthenelse{\q=0}{\pgfmathrandominteger{\q}{1}{5}}{}
+            \pgfmathrandominteger{\s}{-5}{5}
+            \ifthenelse{\s=0}{\pgfmathrandominteger{\s}{-2}{-5}}{}
+		\ifthenelse{\s=1}{\pgfmathrandominteger{\s}{2}{5}}{}
+		\question $\frac{(x^{\ifthenelse{\m=1}{}{\m}}y^{\ifthenelse{\p=1}{}{\p}})^{\s}}{x^{\ifthenelse{\n=1}{}{\n}}y^{\ifthenelse{\q=1}{}{\q}}}$
+			\begin{solutionordottedlines}[\stretch{1}]	
+				\begin{align*}
+                        \frac{(x^{\ifthenelse{\m=1}{}{\m}}y^{\ifthenelse{\p=1}{}{\p}})^{\s}}{x^{\ifthenelse{\n=1}{}{\n}}y^{\ifthenelse{\q=1}{}{\q}}} &= \frac{x^{\ifthenelse{\fpeval{\m*\s}=1}{}{\fpeval{\m*\s}}}y^{\ifthenelse{\fpeval{\p*\s}=1}{}{\fpeval{\p*\s}}}}{x^{\ifthenelse{\n=1}{}{\n}}y^{\ifthenelse{\q=1}{}{\q}}}\\
+					&=x^{\fpeval{\m*\s}-\ifthenelse{\n>0}{\n}{(\n)}}y^{\fpeval{\p*\s}-\ifthenelse{\q>0}{\q}{(\q)}}\\
+                        &=x^{\fpeval{\m*\s-\n}}y^{\fpeval{\p*\s-\q}}\\
+                        %Positive Indices
+                        \ifthenelse{\fpeval{\m*\s-\n}>0}{\ifthenelse{\fpeval{\p*\s-\q}>0}{}{&=\posIn{\fpeval{\m*\s-\n}}{\fpeval{\p*\s-\q}}}}{&=\posIn{\fpeval{\m*\s-\n}}{\fpeval{\p*\s-\q}}}
+				\end{align*}
+			\end{solutionordottedlines}
+	}
+
+        %Laws of Indices: Type II
+        \foreach \i in {1,...,5}{  %change the last number to get more questions
+		\pgfmathrandominteger{\m}{-5}{5}
+		\ifthenelse{\m=0}{\pgfmathrandominteger{\m}{1}{5}}{}
+            \pgfmathrandominteger{\n}{-5}{5}
+		\ifthenelse{\n=0}{\pgfmathrandominteger{\n}{1}{5}}{}
+            \pgfmathrandominteger{\p}{-5}{5}
+		\ifthenelse{\p=0}{\pgfmathrandominteger{\p}{1}{5}}{}
+		\pgfmathrandominteger{\q}{-5}{5}
+		\ifthenelse{\q=0}{\pgfmathrandominteger{\q}{1}{5}}{}
+            \pgfmathrandominteger{\s}{-5}{5}
+            \ifthenelse{\s=0}{\pgfmathrandominteger{\s}{-2}{-5}}{}
+		\ifthenelse{\s=1}{\pgfmathrandominteger{\s}{2}{5}}{}
+		\question $\frac{x^{\ifthenelse{\m=1}{}{\m}}y^{\ifthenelse{\p=1}{}{\p}}}{(x^{\ifthenelse{\n=1}{}{\n}}y^{\ifthenelse{\q=1}{}{\q}})^{\s}}$
+			\begin{solutionordottedlines}[\stretch{1}]	
+				\begin{align*}
+                        \frac{x^{\ifthenelse{\m=1}{}{\m}}y^{\ifthenelse{\p=1}{}{\p}}}{(x^{\ifthenelse{\n=1}{}{\n}}y^{\ifthenelse{\q=1}{}{\q}})^{\s}} &= \frac{x^{\ifthenelse{\m=1}{}{\m}}y^{\ifthenelse{\p=1}{}{\p}}}{x^{\ifthenelse{\fpeval{\n*\s}=1}{}{\fpeval{\n*\s}}}y^{\ifthenelse{\fpeval{\q*\s}=1}{}{\fpeval{\q*\s}}}}\\
+					&=x^{\m-\ifthenelse{\fpeval{\n*\s}>0}{\fpeval{\n*\s}}{(\fpeval{\n*\s})}}y^{\p-\ifthenelse{\fpeval{\q*\s}>0}{\fpeval{\q*\s}}{(\fpeval{\q*\s})}}\\
+                        &=x^{\fpeval{\m-\n*\s}}y^{\fpeval{\p-\q*\s}}\\
+                        %Positive Indices
+                        \ifthenelse{\fpeval{\m-\n*\s}>0}{\ifthenelse{\fpeval{\p-\q*\s}>0}{}{&=\posIn{\fpeval{\m-\n*\s}}{\fpeval{\p-\q*\s}}}}{&=\posIn{\fpeval{\m-\n*\s}}{\fpeval{\p-\q*\s}}}
+				\end{align*}
+			\end{solutionordottedlines}
+	}
+        
+        %Laws of Indices: Type III
+	\foreach \i in {1,...,5}{  %change the last number to get more questions
+		\pgfmathrandominteger{\m}{-5}{5}
+		\ifthenelse{\m=0}{\pgfmathrandominteger{\m}{1}{5}}{}
+            \pgfmathrandominteger{\n}{-5}{5}
+		\ifthenelse{\n=0}{\pgfmathrandominteger{\n}{1}{5}}{}
+            \pgfmathrandominteger{\p}{-5}{5}
+		\ifthenelse{\p=0}{\pgfmathrandominteger{\p}{1}{5}}{}
+		\pgfmathrandominteger{\q}{-5}{5}
+		\ifthenelse{\q=0}{\pgfmathrandominteger{\q}{1}{5}}{}
+            \pgfmathrandominteger{\s}{-5}{5}
+            \ifthenelse{\s=0}{\pgfmathrandominteger{\s}{-2}{-5}}{}
+		\ifthenelse{\s=1}{\pgfmathrandominteger{\s}{2}{5}}{}
+		\question $\frac{x^{\ifthenelse{\m=1}{}{\m}}}{y^{\ifthenelse{\p=1}{}{\p}}}\left(\frac{y^{\ifthenelse{\q=1}{}{\q}}}{x^{\ifthenelse{\n=1}{}{\n}}}\right)^{\s}$
+			\begin{solutionordottedlines}[\stretch{1}]	
+				\begin{align*}
+                        \frac{x^{\ifthenelse{\m=1}{}{\m}}}{y^{\ifthenelse{\p=1}{}{\p}}}\left(\frac{y^{\ifthenelse{\q=1}{}{\q}}}{x^{\ifthenelse{\n=1}{}{\n}}}\right)^{\s} &= \frac{x^{\ifthenelse{\m=1}{}{\m}}}{y^{\ifthenelse{\p=1}{}{\p}}}\cdot\frac{y^{\ifthenelse{\fpeval{\q*\s}=1}{}{\fpeval{\q*\s}}}}{x^{\ifthenelse{\fpeval{\n*\s}=1}{}{\fpeval{\n*\s}}}}\\
+					&=x^{\m-\ifthenelse{\fpeval{\n*\s}>0}{\fpeval{\n*\s}}{(\fpeval{\n*\s})}}y^{\fpeval{\q*\s}-\ifthenelse{\p>0}{\p}{(\p)}}\\
+                        &=x^{\fpeval{\m-\n*\s}}y^{\fpeval{\q*\s-\p}}\\
+                        %Positive Indices
+                        \ifthenelse{\fpeval{\m-\n*\s}>0}{\ifthenelse{\fpeval{\q*\s-\p}>0}{}{&=\posIn{\fpeval{\m-\n*\s}}{\fpeval{\q*\s-\p}}}}{&=\posIn{\fpeval{\m-\n*\s}}{\fpeval{\q*\s-\p}}}
+				\end{align*}
+			\end{solutionordottedlines}
+	}
+        
+	\end{questions}
+\newpage
+\end{document}
