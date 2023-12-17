@@ -6,6 +6,8 @@ LaTeX | Mathematics
 
 ## Outline (In Chronological Order)
 1. S3 Laws of Indices WS (11 Dec 2023)
+2. S1 Solving Equations WS (18 Dec 2023)
+3. S4 Completing the Square WS (18 Dec 2023)
 
 
 ## Note

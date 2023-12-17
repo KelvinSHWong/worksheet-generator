@@ -1,0 +1,92 @@
+\documentclass[11pt,a4paper, addpoints] {exam}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{calculator}
+\usepackage{datetime} \ddmmyyyydate
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{ifthen}
+\usepackage[top=2cm,bottom=2cm,left=1cm,right=1cm]{geometry}	%define the header and footer margin
+
+%Simplifying Fractions
+\newcommand{\simFrac}[2]{
+	\pgfmathtruncatemacro{\p}{#1}
+	\pgfmathtruncatemacro{\q}{#2}
+	\GCD{\p}{\q}{\PQGCD}
+	\pgfmathtruncatemacro{\p}{\p/\PQGCD}
+	\pgfmathtruncatemacro{\q}{\q/\PQGCD}
+	\pgfmathtruncatemacro{\absP}{abs(\p)}
+	\pgfmathtruncatemacro{\absQ}{abs(\q)}
+	\pgfmathtruncatemacro{\PN}{\p*\q}
+	\ifthenelse{\q=1}{\p}{\ifthenelse{\q=-1}{\ifthenelse{\p>0}{-\p}{\absP}}{\ifthenelse{\PN>0}{\frac{\absP}{\absQ}}{-\frac{\absP}{\absQ}}}}	
+}
+%Trucating the leading coefficient if it is 1 or -1
+\newcommand{\leadingCoefficient}[1]{\pgfmathtruncatemacro\temp{#1}\ifthenelse{\temp=1}{}{\ifthenelse{\temp=-1}{-}{\temp}}}
+
+\newcommand{\coefficient}[1]{\pgfmathtruncatemacro\temp{#1}\ifthenelse{\temp=1}{+}{\ifthenelse{\temp=-1}{-}{\ifthenelse{\temp>0}{+\temp}{\temp}}}}
+
+%Adding a "plus" sign for positive numbers
+\newcommand{\Number}[1]{\pgfmathtruncatemacro\temp{#1}\ifthenelse{\temp>0}{+\temp}{\ifthenelse{\temp=0}{}{\temp}}}
+
+
+
+\begin{document}
+\setlength\dottedlinefillheight{0.79cm}
+\footer{}
+       {P.\thepage}{}
+       %{\today}
+\headrule 
+\footrule
+
+\printanswers %comment this line to hide the answers
+
+\header	{\textsf{S4 Mathematics} \\ \textsf{Completing the Square - Revision WS}}
+		{}
+		{\textsf{Name:} \underline{\hspace{2.85cm}}\\
+                  \hfill \textsf{Class:} \underline{\hspace{1.8cm}}(\qquad)}
+\pgfmathsetseed{\year} %change the seed to get different sets of questions
+\paragraph*{Using the method of completing the square, find (i) the coordinates of the vertex of the graph, and (ii) the maximum or minimum value of each of the following quadratic functions.}
+	\begin{questions}
+        %Completing the Square: Type I
+	\foreach \i in {1,...,10}{  %change the last number to get more questions
+		\pgfmathrandominteger{\b}{-14}{14}
+		\ifthenelse{\b=0}{\pgfmathrandominteger{\b}{-14}{-1}}{}
+		\pgfmathrandominteger{\c}{-20}{20}
+		\ifthenelse{\c=0}{\pgfmathrandominteger{\c}{1}{20}}{}
+		\question $y=x^2\coefficient{\b}x\Number{\c}$
+			\begin{solutionordottedlines}[\stretch{1}]	
+				\begin{align*}
+					y&=x^2\coefficient{\b}x\Number{\c}\\
+					&=x^2\coefficient{\b}x+\left(\frac{\b}{2}\right)^2-\left(\frac{\b}{2}\right)^2\Number{\c}\\
+                        &=\left(x\coefficient{\b/abs(\b)}\simFrac{abs(\b)}{2}\right)^2\ifthenelse{\fpeval{-\b*\b+4*\c}>0}{+}{}\simFrac{-\b*\b+4*\c}{4}\\
+				\end{align*}
+                $\therefore$ Vertex $= \left(\simFrac{-\b}{2}, \simFrac{-\b*\b+4*\c}{4}\right)$, Minimum value $= \simFrac{-\b*\b+4*\c}{4}$
+			\end{solutionordottedlines}
+	}
+        \newpage
+
+        %Completing the Square: Type II
+	\foreach \i in {1,...,10}{  %change the last number to get more questions
+		\pgfmathrandominteger{\a}{-4}{4}
+            \ifthenelse{\a=0}{\pgfmathrandominteger{\a}{2}{6}}{}
+		\ifthenelse{\a=1}{\pgfmathrandominteger{\a}{-6}{-2}}{}
+		\pgfmathrandominteger{\b}{-14}{14}
+		\ifthenelse{\b=0}{\pgfmathrandominteger{\b}{-14}{-1}}{}
+		\pgfmathrandominteger{\c}{-20}{20}
+		\ifthenelse{\c=0}{\pgfmathrandominteger{\c}{1}{20}}{}
+		\question $y=\leadingCoefficient{\a}x^2\coefficient{\b}x\Number{\c}$
+			\begin{solutionordottedlines}[\stretch{1}]	
+				\begin{align*}
+					y&=\leadingCoefficient{\a}x^2\coefficient{\b}x\Number{\c}\\
+                        &=\leadingCoefficient{\a}\left(x^2\ifthenelse{\fpeval{\a*\b}>0}{+}{}\simFrac{\b}{\a}x\right)\Number{\c}\\
+					&=\leadingCoefficient{\a}\left[x^2\ifthenelse{\fpeval{\a*\b}>0}{+}{}\simFrac{\b}{\a}x+\left(\simFrac{\b}{\fpeval{2*\a}}\right)^2-\left(\simFrac{\b}{\fpeval{2*\a}}\right)^2\right]\Number{\c}\\
+                        &=\leadingCoefficient{\a}\left[\left(x\ifthenelse{\fpeval{\a*\b}>0}{+}{}\simFrac{\b}{\fpeval{2*\a}}\right)^2-\simFrac{\b*\b}{\fpeval{4*\a*\a}}\right]\Number{\c}\\
+                        &=\leadingCoefficient{\a}\left(x\ifthenelse{\fpeval{\a*\b}>0}{+}{}\simFrac{\b}{\fpeval{2*\a}}\right)^2\coefficient{\a}\left(-\simFrac{\b*\b}{\fpeval{4*\a*\a}}\right)\Number{\c}\\
+                        &=\leadingCoefficient{\a}\left(x\ifthenelse{\fpeval{\a*\b}>0}{+}{}\simFrac{\b}{\fpeval{2*\a}}\right)^2\ifthenelse{\fpeval{(-\b*\b+4*\a*\c)*\a}>0}{+}{}\simFrac{-\b*\b+4*\a*\c}{4*\a}\\
+				\end{align*}
+                $\therefore$ Vertex $= \left(\simFrac{-\b}{2*\a}, \simFrac{-\b*\b+4*\a*\c}{4*\a}\right)$, \ifthenelse{\a>0}{Minimum}{Maximum} value $= \simFrac{-\b*\b+4*\a*\c}{4*\a}$
+			\end{solutionordottedlines}
+	}
+        
+	\end{questions}
+\newpage
+\end{document}
