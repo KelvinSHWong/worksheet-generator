@@ -1,0 +1,186 @@
+\documentclass[11pt,a4paper, addpoints] {exam}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{calculator}
+\usepackage{CJK}
+\usepackage{datetime} \ddmmyyyydate
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{ifthen}
+\usepackage[top=2cm,bottom=2cm,left=1cm,right=1cm]{geometry}	%define the header and footer margin
+
+%Simplifying Fractions
+\newcommand{\simFrac}[2]{
+	\pgfmathtruncatemacro{\p}{#1}
+	\pgfmathtruncatemacro{\q}{#2}
+	\GCD{\p}{\q}{\PQGCD}
+	\pgfmathtruncatemacro{\p}{\p/\PQGCD}
+	\pgfmathtruncatemacro{\q}{\q/\PQGCD}
+	\pgfmathtruncatemacro{\absP}{abs(\p)}
+	\pgfmathtruncatemacro{\absQ}{abs(\q)}
+	\pgfmathtruncatemacro{\PN}{\p*\q}
+	\ifthenelse{\q=1}{\p}{\ifthenelse{\q=-1}{\ifthenelse{\p>0}{-\p}{\absP}}{\ifthenelse{\PN>0}{\frac{\absP}{\absQ}}{-\frac{\absP}{\absQ}}}}	
+}
+%Trucating the leading coefficient if it is 1 or -1
+\newcommand{\leadingCoefficient}[1]{\pgfmathtruncatemacro\temp{#1}\ifthenelse{\temp=1}{}{\ifthenelse{\temp=-1}{-}{\temp}}}
+
+\newcommand{\coefficient}[1]{\pgfmathtruncatemacro\temp{#1}\ifthenelse{\temp=1}{+}{\ifthenelse{\temp=-1}{-}{\ifthenelse{\temp>0}{+\temp}{\temp}}}}
+
+%Adding a "plus" sign for positive numbers
+\newcommand{\Number}[1]{\pgfmathtruncatemacro\temp{#1}\ifthenelse{\temp>0}{+\temp}{\ifthenelse{\temp=0}{}{\temp}}}
+
+
+
+\begin{document}
+\begin{CJK}{UTF8}{bsmi}
+
+\setlength\dottedlinefillheight{0.79cm}
+\footer{}
+       {P.\thepage}{}
+       %{\today}
+\headrule 
+\footrule
+
+\printanswers %comment this line to hide the answers
+
+\header	{\textsf{S1 Mathematics} \\ \textsf{Solving Equations - Revision WS}}
+		{}
+		{\textsf{Name:} \underline{\hspace{2.85cm}}\\
+                  \hfill \textsf{Class:} \underline{\hspace{1.8cm}}(\qquad)}
+\pgfmathsetseed{\year} %change the seed to get different sets of questions
+\paragraph*{Solve the following equations.}
+	\begin{questions}
+        %Simple Linear Equations in One Unknown: Type I
+	\foreach \i in {1,...,10}{  %change the last number to get more questions
+		\pgfmathrandominteger{\a}{-20}{20}
+		\ifthenelse{\a=0}{\pgfmathrandominteger{\a}{1}{10}}{}
+		\pgfmathrandominteger{\b}{-5}{5}
+		\ifthenelse{\b=0}{\pgfmathrandominteger{\b}{-10}{-1}}{}
+		\pgfmathrandominteger{\c}{-130}{130}
+		\question $\leadingCoefficient{\a}x\Number{\b}=\c$
+			\begin{solutionordottedlines}[\stretch{1}]	
+				\begin{align*}
+					\leadingCoefficient{\a}x\Number{\b}&=\c\\
+					\leadingCoefficient{\a}x&=\c\Number{-\b}\\
+					x&=\simFrac{\c-\b}{\a}
+				\end{align*}
+			\end{solutionordottedlines}
+	}
+        \newpage
+        
+        %Simple Linear Equations in One Unknown: Type II
+	\foreach \i in {1,...,10}{  %change the last number to get more questions
+		\pgfmathrandominteger{\a}{-5}{5}
+  		\ifthenelse{\a=0}{\pgfmathrandominteger{\a}{1}{10}}{}
+		\ifthenelse{\a=1}{\pgfmathrandominteger{\a}{-10}{-1}}{}
+		\pgfmathrandominteger{\b}{1}{5}
+            \pgfmathrandominteger{\c}{-5}{5}
+		\ifthenelse{\c=0}{\pgfmathrandominteger{\c}{-10}{-1}}{}
+            \pgfmathrandominteger{\d}{-10}{10}
+		\ifthenelse{\d=0}{\pgfmathrandominteger{\d}{1}{20}}{}
+            \ifthenelse{\fpeval{\a*\b+\d}=0}{\pgfmathrandominteger{\d}{11}{20}}{}
+		\pgfmathrandominteger{\e}{-130}{130}
+		\question $\leadingCoefficient{\a}(\leadingCoefficient{\b}x\Number{\c})\coefficient{\d}x=\e$
+			\begin{solutionordottedlines}[\stretch{1}]	
+				\begin{align*}
+					\leadingCoefficient{\a}(\leadingCoefficient{\b}x\Number{\c})\coefficient{\d}x&=\e\\
+				    \leadingCoefficient{\a*\b}x\Number{\a*\c}\coefficient{\d}x&=\e\\
+                        \leadingCoefficient{\a*\b}x\coefficient{\d}x&=\e\Number{-(\a*\c)}\\
+                        \leadingCoefficient{\a*\b+\d}x&=\fpeval{\e-\a*\c}\\
+					x&=\simFrac{\e-\a*\c}{\a*\b+\d}
+				\end{align*}
+			\end{solutionordottedlines}
+	}
+        \newpage
+
+        %Simple Linear Equations in One Unknown: Type III
+	\foreach \i in {1,...,10}{  %change the last number to get more questions
+		\pgfmathrandominteger{\a}{-5}{5}
+  		\ifthenelse{\a=0}{\pgfmathrandominteger{\a}{1}{10}}{}
+		\pgfmathrandominteger{\b}{-5}{5}
+            \ifthenelse{\b=0}{\pgfmathrandominteger{\b}{-10}{-1}}{}
+            \pgfmathrandominteger{\c}{2}{8}
+            \pgfmathrandominteger{\d}{-5}{5}
+  		\ifthenelse{\d=0}{\pgfmathrandominteger{\d}{1}{10}}{}
+		\pgfmathrandominteger{\e}{-5}{5}
+            \ifthenelse{\e=0}{\pgfmathrandominteger{\e}{-10}{-1}}{}
+            \pgfmathrandominteger{\f}{2}{8}
+            \ifthenelse{\c=\f}{\pgfmathrandominteger{\c}{9}{12}}{}
+            \ifthenelse{\fpeval{\a*\f-\d*\c}=0}{\pgfmathrandominteger{\f}{9}{12}}{}
+		\question $\frac{\leadingCoefficient{\a}x\Number{\b}}{\c}=\frac{\leadingCoefficient{\d}x\Number{\e}}{\f}$
+			\begin{solutionordottedlines}[\stretch{1}]	
+				\begin{align*}
+					\frac{\leadingCoefficient{\a}x\Number{\b}}{\c}&=\frac{\leadingCoefficient{\d}x\Number{\e}}{\f}\\
+				    (\leadingCoefficient{\a}x\Number{\b})\times\f&=(\leadingCoefficient{\d}x\Number{\e})\times\c\\
+                        \leadingCoefficient{\a*\f}x\Number{\b*\f}&=\leadingCoefficient{\d*\c}x\Number{\e*\c}\\
+                        \leadingCoefficient{\a*\f}x\coefficient{-(\d*\c)}x&=\fpeval{\e*\c}\Number{-(\b*\f)}\\
+                        \leadingCoefficient{\a*\f-\d*\c}x&=\fpeval{\e*\c-\b*\f}\\
+					x&=\simFrac{\e*\c-\b*\f}{\a*\f-\d*\c}
+				\end{align*}
+			\end{solutionordottedlines}
+	}
+        \newpage
+
+        %Simple Linear Equations in One Unknown: Type IV.1
+	\foreach \i in {1,...,5}{  %change the last number to get more questions
+		\pgfmathrandominteger{\a}{-5}{5}
+  		\ifthenelse{\a=0}{\pgfmathrandominteger{\a}{1}{10}}{}
+		\pgfmathrandominteger{\b}{-5}{5}
+            \ifthenelse{\b=0}{\pgfmathrandominteger{\b}{-10}{-1}}{}
+            \pgfmathrandominteger{\c}{2}{5}
+            \pgfmathrandominteger{\d}{-5}{5}
+  		\ifthenelse{\d=0}{\pgfmathrandominteger{\d}{1}{10}}{}
+		\pgfmathrandominteger{\e}{-5}{5}
+            \ifthenelse{\e=0}{\pgfmathrandominteger{\e}{-10}{-1}}{}
+            \pgfmathrandominteger{\f}{2}{5}
+            \ifthenelse{\c=\f}{\pgfmathrandominteger{\c}{7}{12}}{}
+            \pgfmathrandominteger{\g}{-10}{10}
+            \ifthenelse{\g=0}{\pgfmathrandominteger{\e}{11}{20}}{}
+            \ifthenelse{\fpeval{\a*\f+\d*\c}=0}{\pgfmathrandominteger{\f}{7}{12}}{}
+		\question $\frac{\leadingCoefficient{\a}x\Number{\b}}{\c}+\frac{\leadingCoefficient{\d}x\Number{\e}}{\f}=\g$
+			\begin{solutionordottedlines}[\stretch{1}]	
+				\begin{align*}
+					\frac{\leadingCoefficient{\a}x\Number{\b}}{\c}+\frac{\leadingCoefficient{\d}x\Number{\e}}{\f}&=\g\\
+                        \frac{\f(\leadingCoefficient{\a}x\Number{\b})}{\fpeval{\c*\f}}+\frac{\c(\leadingCoefficient{\d}x\Number{\e})}{\fpeval{\c*\f}}&=\g\\
+				    \f(\leadingCoefficient{\a}x\Number{\b})+\c(\leadingCoefficient{\d}x\Number{\e})&=\fpeval{\g*\c*\f}\\
+                        \leadingCoefficient{\a*\f}x\Number{\b*\f}\coefficient{\d*\c}x\Number{\e*\c}&=\fpeval{\g*\c*\f}\\
+                        \leadingCoefficient{\a*\f}x\coefficient{\d*\c}x&=\fpeval{\g*\c*\f}\Number{-\b*\f}\Number{-\e*\c}\\
+                        \leadingCoefficient{\a*\f+\d*\c}x&=\fpeval{\g*\c*\f-\b*\f-\e*\c}\\
+					x&=\simFrac{\g*\c*\f-\b*\f-\e*\c}{\a*\f+\d*\c}
+				\end{align*}
+			\end{solutionordottedlines}
+	}
+
+        %Simple Linear Equations in One Unknown: Type IV.2
+	\foreach \i in {1,...,5}{  %change the last number to get more questions
+		\pgfmathrandominteger{\a}{-5}{5}
+  		\ifthenelse{\a=0}{\pgfmathrandominteger{\a}{1}{10}}{}
+		\pgfmathrandominteger{\b}{-5}{5}
+            \ifthenelse{\b=0}{\pgfmathrandominteger{\b}{-10}{-1}}{}
+            \pgfmathrandominteger{\c}{2}{5}
+            \pgfmathrandominteger{\d}{-5}{5}
+  		\ifthenelse{\d=0}{\pgfmathrandominteger{\d}{1}{10}}{}
+		\pgfmathrandominteger{\e}{-5}{5}
+            \ifthenelse{\e=0}{\pgfmathrandominteger{\e}{-10}{-1}}{}
+            \pgfmathrandominteger{\f}{2}{5}
+            \ifthenelse{\c=\f}{\pgfmathrandominteger{\c}{7}{12}}{}
+            \pgfmathrandominteger{\g}{-10}{10}
+            \ifthenelse{\g=0}{\pgfmathrandominteger{\e}{11}{20}}{}
+            \ifthenelse{\fpeval{\a*\f-\d*\c}=0}{\pgfmathrandominteger{\f}{7}{12}}{}
+		\question $\frac{\leadingCoefficient{\a}x\Number{\b}}{\c}-\frac{\leadingCoefficient{\d}x\Number{\e}}{\f}=\g$
+			\begin{solutionordottedlines}[\stretch{1}]	
+				\begin{align*}
+					\frac{\leadingCoefficient{\a}x\Number{\b}}{\c}-\frac{\leadingCoefficient{\d}x\Number{\e}}{\f}&=\g\\
+                        \frac{\f(\leadingCoefficient{\a}x\Number{\b})}{\fpeval{\c*\f}}-\frac{\c(\leadingCoefficient{\d}x\Number{\e})}{\fpeval{\c*\f}}&=\g\\
+				    \f(\leadingCoefficient{\a}x\Number{\b})-\c(\leadingCoefficient{\d}x\Number{\e})&=\fpeval{\g*\c*\f}\\
+                        \leadingCoefficient{\a*\f}x\Number{\b*\f}\coefficient{-\d*\c}x\Number{-\e*\c}&=\fpeval{\g*\c*\f}\\
+                        \leadingCoefficient{\a*\f}x\coefficient{-\d*\c}x&=\fpeval{\g*\c*\f}\Number{-\b*\f}\Number{\e*\c}\\
+                        \leadingCoefficient{\a*\f-\d*\c}x&=\fpeval{\g*\c*\f-\b*\f+\e*\c}\\
+					x&=\simFrac{\g*\c*\f-\b*\f+\e*\c}{\a*\f-\d*\c}
+				\end{align*}
+			\end{solutionordottedlines}
+	}
+        
+	\end{questions}
+\newpage
+\end{CJK}
+\end{document}
