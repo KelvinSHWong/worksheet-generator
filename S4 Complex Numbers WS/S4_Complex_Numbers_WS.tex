@@ -1,0 +1,148 @@
+\documentclass[11pt,a4paper, addpoints] {exam}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{calculator}
+\usepackage{datetime} \ddmmyyyydate
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{ifthen}
+\usepackage[top=2cm,bottom=2cm,left=1cm,right=1cm]{geometry}	%define the header and footer margin
+
+%Simplifying Fractions
+\newcommand{\simFrac}[2]{
+	\pgfmathtruncatemacro{\p}{#1}
+	\pgfmathtruncatemacro{\q}{#2}
+	\GCD{\p}{\q}{\PQGCD}
+	\pgfmathtruncatemacro{\p}{\p/\PQGCD}
+	\pgfmathtruncatemacro{\q}{\q/\PQGCD}
+	\pgfmathtruncatemacro{\absP}{abs(\p)}
+	\pgfmathtruncatemacro{\absQ}{abs(\q)}
+	\pgfmathtruncatemacro{\PN}{\p*\q}
+	\ifthenelse{\q=1}{\p}{\ifthenelse{\q=-1}{\ifthenelse{\p>0}{-\p}{\absP}}{\ifthenelse{\PN>0}{\frac{\absP}{\absQ}}{-\frac{\absP}{\absQ}}}}	
+}
+%Trucating the leading coefficient if it is 1 or -1
+\newcommand{\leadingCoefficient}[1]{\pgfmathtruncatemacro\temp{#1}\ifthenelse{\temp=1}{}{\ifthenelse{\temp=-1}{-}{\temp}}}
+
+\newcommand{\coefficient}[1]{\pgfmathtruncatemacro\temp{#1}\ifthenelse{\temp=1}{+}{\ifthenelse{\temp=-1}{-}{\ifthenelse{\temp>0}{+\temp}{\temp}}}}
+
+%Adding a "plus" sign for positive numbers
+\newcommand{\Number}[1]{\pgfmathtruncatemacro\temp{#1}\ifthenelse{\temp>0}{+\temp}{\ifthenelse{\temp=0}{}{\temp}}}
+
+%Simplifying Fractions and Trucating the leading coefficient if it is 1 or -1
+\newcommand{\simFracCoef}[2]{
+	\pgfmathtruncatemacro{\p}{#1}
+	\pgfmathtruncatemacro{\q}{#2}
+	\GCD{\p}{\q}{\PQGCD}
+	\pgfmathtruncatemacro{\p}{\p/\PQGCD}
+	\pgfmathtruncatemacro{\q}{\q/\PQGCD}
+	\pgfmathtruncatemacro{\absP}{abs(\p)}
+	\pgfmathtruncatemacro{\absQ}{abs(\q)}
+	\pgfmathtruncatemacro{\PN}{\p*\q}
+	\ifthenelse{\q=1}{\ifthenelse{\p=1}{}{\ifthenelse{\p=-1}{-}{\p}}}{\ifthenelse{\q=-1}{\ifthenelse{\p=1}{-}{\ifthenelse{\p=-1}{}{\ifthenelse{\p>0}{-\p}{\absP}}}}{\ifthenelse{\PN>0}{\frac{\absP}{\absQ}}{-\frac{\absP}{\absQ}}}}
+}
+
+
+
+\begin{document}
+\setlength\dottedlinefillheight{0.79cm}
+\footer{}
+       {P.\thepage}{}
+       %{\today}
+\headrule 
+\footrule
+
+\printanswers %comment this line to hide the answers
+
+\header	{\textsf{S4 Mathematics} \\ \textsf{Complex Numbers - Revision WS}}
+		{}
+		{\textsf{Name:} \underline{\hspace{2.85cm}}\\
+                  \hfill \textsf{Class:} \underline{\hspace{1.8cm}}(\qquad)}
+\pgfmathsetseed{\year} %change the seed to get different sets of questions
+\paragraph*{Simplify and express each of the following in the form of $a+bi$.}
+	\begin{questions}
+        %Addition
+	\foreach \i in {1,...,5}{  %change the last number to get more questions
+		\pgfmathrandominteger{\a}{-15}{15}
+		\ifthenelse{\a=0}{\pgfmathrandominteger{\a}{1}{15}}{}
+            \pgfmathrandominteger{\b}{-15}{15}
+		\ifthenelse{\b=0}{\pgfmathrandominteger{\b}{-15}{-1}}{}
+		\pgfmathrandominteger{\c}{-15}{15}
+		\ifthenelse{\c=0}{\pgfmathrandominteger{\c}{1}{15}}{}
+            \pgfmathrandominteger{\d}{-15}{15}
+		\ifthenelse{\d=0}{\pgfmathrandominteger{\d}{-15}{-1}}{}
+		\question $(\a\coefficient{\b}i)+(\c\coefficient{\d}i)$
+			\begin{solutionordottedlines}[\stretch{1}]	
+				\begin{align*}
+					(\a\coefficient{\b}i)+(\c\coefficient{\d}i)&=\a\Number{\c}\coefficient{\b}i\coefficient{\d}i\\
+                    &=\ifthenelse{\fpeval{\a+\c}=0}{}{\fpeval{\a+\c}}\ifthenelse{\fpeval{\b+\d}=0}{}{\coefficient{\b+\d}i}
+				\end{align*}
+			\end{solutionordottedlines}
+	}
+        
+        %Subtraction
+	\foreach \i in {1,...,5}{  %change the last number to get more questions
+		\pgfmathrandominteger{\a}{-15}{15}
+		\ifthenelse{\a=0}{\pgfmathrandominteger{\a}{1}{15}}{}
+            \pgfmathrandominteger{\b}{-15}{15}
+		\ifthenelse{\b=0}{\pgfmathrandominteger{\b}{-15}{-1}}{}
+		\pgfmathrandominteger{\c}{-15}{15}
+		\ifthenelse{\c=0}{\pgfmathrandominteger{\c}{1}{15}}{}
+            \pgfmathrandominteger{\d}{-15}{15}
+		\ifthenelse{\d=0}{\pgfmathrandominteger{\d}{-15}{-1}}{}
+		\question $(\a\coefficient{\b}i)-(\c\coefficient{\d}i)$
+			\begin{solutionordottedlines}[\stretch{1}]	
+				\begin{align*}
+					(\a\coefficient{\b}i)-(\c\coefficient{\d}i)&=\a\coefficient{\b}i\Number{-\c}\coefficient{-\d}i\\
+                    &=\a\Number{-\c}\coefficient{\b}i\coefficient{-\d}i\\
+                    &=\ifthenelse{\fpeval{\a-\c}=0}{}{\fpeval{\a-\c}}\ifthenelse{\fpeval{\b-\d}=0}{}{\coefficient{\b-\d}i}
+				\end{align*}
+			\end{solutionordottedlines}
+	}
+        \newpage
+        
+        %Multiplication
+	\foreach \i in {1,...,10}{  %change the last number to get more questions
+		\pgfmathrandominteger{\a}{-10}{10}
+		\ifthenelse{\a=0}{\pgfmathrandominteger{\a}{1}{10}}{}
+            \pgfmathrandominteger{\b}{-10}{10}
+		\ifthenelse{\b=0}{\pgfmathrandominteger{\b}{-10}{-1}}{}
+		\pgfmathrandominteger{\c}{-10}{10}
+		\ifthenelse{\c=0}{\pgfmathrandominteger{\c}{1}{10}}{}
+            \pgfmathrandominteger{\d}{-10}{10}
+		\ifthenelse{\d=0}{\pgfmathrandominteger{\d}{-10}{-1}}{}
+            \question $(\a\coefficient{\b}i)(\c\coefficient{\d}i)$
+			\begin{solutionordottedlines}[\stretch{1}]	
+				\begin{align*}
+                    (\a\coefficient{\b}i)(\c\coefficient{\d}i)&=\fpeval{\a*\c}\coefficient{\a*\d}i\coefficient{\b*\c}i\coefficient{\b*\d}i^2\\
+                    &=\fpeval{\a*\c}\coefficient{\a*\d}i\coefficient{\b*\c}i\coefficient{\b*\d}(-1)\\
+                    &=\fpeval{\a*\c}\Number{-\b*\d}\coefficient{\a*\d}i\coefficient{\b*\c}i\\
+                    &=\ifthenelse{\fpeval{\a*\c-\b*\d}=0}{}{\fpeval{\a*\c-\b*\d}}\ifthenelse{\fpeval{\a*\d+\b*\c}=0}{}{\coefficient{\a*\d+\b*\c}i}
+				\end{align*}
+			\end{solutionordottedlines}
+	}
+        \newpage
+        
+        %Division
+	\foreach \i in {1,...,10}{  %change the last number to get more questions
+		\pgfmathrandominteger{\a}{1}{8}
+            \pgfmathrandominteger{\b}{-8}{8}
+		\ifthenelse{\b=0}{\pgfmathrandominteger{\b}{-8}{-1}}{}
+		\pgfmathrandominteger{\c}{1}{8}
+            \pgfmathrandominteger{\d}{-8}{8}
+		\ifthenelse{\d=0}{\pgfmathrandominteger{\d}{-8}{-1}}{}
+            \ifthenelse{\fpeval{\b*\c-\a*\d}=0}{\pgfmathrandominteger{\a}{9}{10}}{}
+		\question $\frac{\a\coefficient{\b}i}{\c\coefficient{\d}i}$
+			\begin{solutionordottedlines}[\stretch{1}]	
+				\begin{align*}
+                    \frac{\a\coefficient{\b}i}{\c\coefficient{\d}i}&=\frac{\a\coefficient{\b}i}{\c\coefficient{\d}i}\cdot\frac{\c\coefficient{-\d}i}{\c\coefficient{-\d}i}\\
+                    &=\frac{\fpeval{\a*\c}\coefficient{-\a*\d}i\coefficient{\b*\c}i\coefficient{-\b*\d}i^2}{\c^2-(\leadingCoefficient{abs(\d)}i)^2}\\
+                    &=\frac{\fpeval{\a*\c}\coefficient{-\a*\d}i\coefficient{\b*\c}i\coefficient{-\b*\d}i^2}{\c^2-\leadingCoefficient{\d*\d}i^2}\\
+                    &=\frac{\fpeval{\a*\c}\coefficient{-\a*\d}i\coefficient{\b*\c}i\coefficient{-\b*\d}(-1)}{\c^2-\leadingCoefficient{\d*\d}(-1)}\\
+                    &=\frac{\fpeval{\a*\c+\b*\d}\coefficient{\b*\c-\a*\d}i}{\fpeval{\c*\c+\d*\d}}\\
+                    &=\ifthenelse{\fpeval{\a*\c+\b*\d}=0}{}{\simFrac{\a*\c+\b*\d}{\c*\c+\d*\d}}\ifthenelse{\fpeval{\b*\c-\a*\d}>0}{+}{}\simFracCoef{\b*\c-\a*\d}{\c*\c+\d*\d}i
+				\end{align*}
+			\end{solutionordottedlines}
+	}
+        
+	\end{questions}
+\newpage
+\end{document}
