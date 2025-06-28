@@ -9,6 +9,7 @@ LaTeX | Mathematics
 2. S1 Solving Equations WS (18 Dec 2023)
 3. S4 Completing the Square WS (18 Dec 2023)
 4. S4 Complex Numbers WS (21 Dec 2023)
+5. S1 Manipulation of Polynomials (28 Jun 2025)
 
 
 ## Note

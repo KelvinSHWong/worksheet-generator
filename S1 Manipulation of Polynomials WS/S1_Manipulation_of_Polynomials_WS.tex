@@ -1,0 +1,188 @@
+\documentclass[11pt,a4paper, addpoints] {exam}
+\usepackage[fontsize=12pt]{scrextend}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{calculator}
+\usepackage{datetime} \ddmmyyyydate
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{ifthen}
+\usepackage[top=2cm,bottom=2cm,left=1cm,right=1cm]{geometry}	%define the header and footer margin
+
+%Simplifying Fractions
+\newcommand{\simFrac}[2]{
+	\pgfmathtruncatemacro{\p}{#1}
+	\pgfmathtruncatemacro{\q}{#2}
+	\GCD{\p}{\q}{\PQGCD}
+	\pgfmathtruncatemacro{\p}{\p/\PQGCD}
+	\pgfmathtruncatemacro{\q}{\q/\PQGCD}
+	\pgfmathtruncatemacro{\absP}{abs(\p)}
+	\pgfmathtruncatemacro{\absQ}{abs(\q)}
+	\pgfmathtruncatemacro{\PN}{\p*\q}
+	\ifthenelse{\q=1}{\p}{\ifthenelse{\q=-1}{\ifthenelse{\p>0}{-\p}{\absP}}{\ifthenelse{\PN>0}{\frac{\absP}{\absQ}}{-\frac{\absP}{\absQ}}}}	
+}
+%Truncating the leading coefficient if it is 1 or -1
+\newcommand{\leadingCoefficient}[1]{\pgfmathtruncatemacro\temp{#1}\ifthenelse{\temp=1}{}{\ifthenelse{\temp=-1}{-}{\temp}}}
+
+\newcommand{\coefficient}[1]{\pgfmathtruncatemacro\temp{#1}\ifthenelse{\temp=1}{+}{\ifthenelse{\temp=-1}{-}{\ifthenelse{\temp>0}{+\temp}{\temp}}}}
+
+%Adding a "plus" sign for positive numbers
+\newcommand{\Number}[1]{\pgfmathtruncatemacro\temp{#1}\ifthenelse{\temp>0}{+\temp}{\ifthenelse{\temp=0}{}{\temp}}}
+
+%Simplifying Fractions and Trucating the leading coefficient if it is 1 or -1
+\newcommand{\simFracCoef}[2]{
+	\pgfmathtruncatemacro{\p}{#1}
+	\pgfmathtruncatemacro{\q}{#2}
+	\GCD{\p}{\q}{\PQGCD}
+	\pgfmathtruncatemacro{\p}{\p/\PQGCD}
+	\pgfmathtruncatemacro{\q}{\q/\PQGCD}
+	\pgfmathtruncatemacro{\absP}{abs(\p)}
+	\pgfmathtruncatemacro{\absQ}{abs(\q)}
+	\pgfmathtruncatemacro{\PN}{\p*\q}
+	\ifthenelse{\q=1}{\ifthenelse{\p=1}{}{\ifthenelse{\p=-1}{-}{\p}}}{\ifthenelse{\q=-1}{\ifthenelse{\p=1}{-}{\ifthenelse{\p=-1}{}{\ifthenelse{\p>0}{-\p}{\absP}}}}{\ifthenelse{\PN>0}{\frac{\absP}{\absQ}}{-\frac{\absP}{\absQ}}}}
+}
+
+
+
+\begin{document}
+\setlength\dottedlinefillheight{0.79cm}
+\footer{}
+       {P.\thepage}{}
+       %{\today}
+\headrule 
+\footrule
+
+%\printanswers %comment this line to hide the answers
+
+\header	{\textsf{S1 Mathematics} \\ \textsf{Manipulation of Polynomials - Revision WS}}
+		{}
+		{\textsf{Name:} \underline{\hspace{2.85cm}}\\
+                  \hfill \textsf{Class:} \underline{\hspace{1.8cm}}(\qquad)}
+\pgfmathsetseed{1} %change the seed to get different sets of questions
+\paragraph*{Simplify the expressions for (1-10). Expand the expressions for (11-30).}
+	\begin{questions}
+        %Addition
+	\foreach \i in {1,...,5}{  %change the last number to get more questions
+		\pgfmathrandominteger{\a}{-10}{10}
+		\ifthenelse{\a=0}{\pgfmathrandominteger{\a}{1}{10}}{}
+            \pgfmathrandominteger{\b}{-10}{10}
+		\ifthenelse{\b=0}{\pgfmathrandominteger{\b}{-10}{-1}}{}
+		\pgfmathrandominteger{\c}{-10}{10}
+		\ifthenelse{\c=0}{\pgfmathrandominteger{\c}{1}{10}}{}
+            \pgfmathrandominteger{\d}{-10}{10}
+		\ifthenelse{\d=0}{\pgfmathrandominteger{\d}{-10}{-1}}{}
+		\question $(\leadingCoefficient{\a}x\Number{\b})+(\leadingCoefficient{\c}x\Number{\d})$
+			\begin{solutionordottedlines}[\stretch{1}]	
+				\begin{align*}
+					(\leadingCoefficient{\a}x\Number{\b})+(\leadingCoefficient{\c}x\Number{\d})
+                    &=\leadingCoefficient{\a}x\Number{\b}\coefficient{\c}x\Number{\d}\\
+                    &=\leadingCoefficient{\a}x\coefficient{\c}x\Number{\b}\Number{\d}\\
+                    &=\ifthenelse{\fpeval{\a+\c}=0}{}{\leadingCoefficient{\a+\c}x}\ifthenelse{\fpeval{\b+\d}=0}{}{\Number{\b+\d}}
+				\end{align*}
+			\end{solutionordottedlines}
+	}
+        
+        %Subtraction
+	\foreach \i in {1,...,5}{  %change the last number to get more questions
+		\pgfmathrandominteger{\a}{-10}{10}
+		\ifthenelse{\a=0}{\pgfmathrandominteger{\a}{1}{10}}{}
+            \pgfmathrandominteger{\b}{-10}{10}
+		\ifthenelse{\b=0}{\pgfmathrandominteger{\b}{-10}{-1}}{}
+		\pgfmathrandominteger{\c}{-10}{10}
+		\ifthenelse{\c=0}{\pgfmathrandominteger{\c}{1}{10}}{}
+            \pgfmathrandominteger{\d}{-10}{10}
+		\ifthenelse{\d=0}{\pgfmathrandominteger{\d}{-10}{-1}}{}
+		\question $(\leadingCoefficient{\a}x\Number{\b})-(\leadingCoefficient{\c}x\Number{\d})$
+			\begin{solutionordottedlines}[\stretch{1}]	
+				\begin{align*}
+					(\leadingCoefficient{\a}x\Number{\b})-(\leadingCoefficient{\c}x\Number{\d})
+                    &=\leadingCoefficient{\a}x\Number{\b}\coefficient{-\c}x\Number{-\d}\\
+                    &=\leadingCoefficient{\a}x\coefficient{-\c}x\Number{\b}\Number{-\d}\\
+                    &=\ifthenelse{\fpeval{\a-\c}=0}{}{\leadingCoefficient{\a-\c}x}\ifthenelse{\fpeval{\b-\d}=0}{}{\Number{\b-\d}}
+				\end{align*}
+			\end{solutionordottedlines}
+	}
+        \newpage
+
+        %Multiplication (I)
+        \foreach \i in {1,...,5}{  %change the last number to get more questions
+		\pgfmathrandominteger{\a}{-10}{10}
+		\ifthenelse{\a=0}{\pgfmathrandominteger{\a}{1}{10}}{}
+            \pgfmathrandominteger{\b}{-10}{10}
+		\ifthenelse{\b=0}{\pgfmathrandominteger{\b}{-10}{-1}}{}
+		\pgfmathrandominteger{\c}{-10}{10}
+		\ifthenelse{\c=0}{\pgfmathrandominteger{\c}{1}{10}}{}
+            \pgfmathrandominteger{\d}{-10}{10}
+		\ifthenelse{\d=0}{\pgfmathrandominteger{\d}{-10}{-1}}{}
+            \question $(\leadingCoefficient{\a}x\Number{\b})(\leadingCoefficient{\c}x\Number{\d})$
+			\begin{solutionordottedlines}[\stretch{1}]	
+				\begin{align*}
+                    (\leadingCoefficient{\a}x\Number{\b})(\leadingCoefficient{\c}x\Number{\d})
+                    &=\leadingCoefficient{\a*\c}x^2\coefficient{\a*\d}x\coefficient{\b*\c}x\Number{\b*\d}\\
+                    &=\leadingCoefficient{\a*\c}x^2\ifthenelse{\fpeval{\a*\d+\b*\c}=0}{}{\coefficient{\a*\d+\b*\c}x}\Number{\b*\d}
+				\end{align*}
+			\end{solutionordottedlines}
+	}
+        \newpage
+        
+        %Multiplication (II)
+	\foreach \i in {1,...,5}{  %change the last number to get more questions
+		\pgfmathrandominteger{\a}{-10}{10}
+		\ifthenelse{\a=0}{\pgfmathrandominteger{\a}{1}{10}}{}
+            \pgfmathrandominteger{\b}{-10}{10}
+		\ifthenelse{\b=0}{\pgfmathrandominteger{\b}{-10}{-1}}{}
+		\pgfmathrandominteger{\c}{-10}{10}
+		\ifthenelse{\c=0}{\pgfmathrandominteger{\c}{1}{10}}{}
+            \pgfmathrandominteger{\d}{-10}{10}
+		\ifthenelse{\d=0}{\pgfmathrandominteger{\d}{-10}{-1}}{}
+            \question $(\a\coefficient{\b}x)(\c\coefficient{\d}x)$
+			\begin{solutionordottedlines}[\stretch{1}]	
+				\begin{align*}
+                    (\a\coefficient{\b}x)(\c\coefficient{\d}x)
+                    &=\fpeval{\a*\c}\coefficient{\a*\d}x\coefficient{\b*\c}x\coefficient{\b*\d}x^2\\
+                    &=\fpeval{\a*\c}\ifthenelse{\fpeval{\a*\d+\b*\c}=0}{}{\coefficient{\a*\d+\b*\c}x}\coefficient{\b*\d}x^2\\
+                    &=\leadingCoefficient{\b*\d}x^2\ifthenelse{\fpeval{\a*\d+\b*\c}=0}{}{\coefficient{\a*\d+\b*\c}x}\Number{\a*\c}
+				\end{align*}
+			\end{solutionordottedlines}
+	}
+        \newpage
+
+        %Multiplication (III)
+        \foreach \i in {1,...,5}{  %change the last number to get more questions
+		\pgfmathrandominteger{\a}{1}{10}
+            \pgfmathrandominteger{\b}{-10}{10}
+		\ifthenelse{\b=0}{\pgfmathrandominteger{\b}{-10}{-1}}{}
+            \question $(\leadingCoefficient{\a}x\Number{\b})^2$
+			\begin{solutionordottedlines}[\stretch{1}]	
+				\begin{align*}
+                    (\leadingCoefficient{\a}x\Number{\b})^2
+                    &=(\leadingCoefficient{\a}x\Number{\b})(\leadingCoefficient{\a}x\Number{\b})\\
+                    &=\leadingCoefficient{\a*\a}x^2\coefficient{\a*\b}x\coefficient{\b*\a}x\Number{\b*\b}\\
+                    &=\leadingCoefficient{\a*\a}x^2\coefficient{\a*\b*2}x\Number{\b*\b}
+				\end{align*}
+			\end{solutionordottedlines}
+	}
+        \newpage
+        
+        %Multiplication (IV)
+	\foreach \i in {1,...,5}{  %change the last number to get more questions
+		\pgfmathrandominteger{\a}{1}{5}
+            \pgfmathrandominteger{\b}{-5}{5}
+		\ifthenelse{\b=0}{\pgfmathrandominteger{\b}{-5}{-1}}{}
+		\pgfmathrandominteger{\c}{-5}{5}
+		\ifthenelse{\c=0}{\pgfmathrandominteger{\c}{1}{5}}{}
+            \pgfmathrandominteger{\d}{1}{5}
+            \pgfmathrandominteger{\e}{-5}{5}
+		\ifthenelse{\e=0}{\pgfmathrandominteger{\e}{-5}{-1}}{}
+            \question $(\leadingCoefficient{\a}x^2\coefficient{\b}x\Number{\c})(\leadingCoefficient{\d}x\Number{\e})$
+			\begin{solutionordottedlines}[\stretch{1}]	
+				\begin{align*}
+                    (\leadingCoefficient{\a}x^2\coefficient{\b}x\Number{\c})(\leadingCoefficient{\d}x\Number{\e})
+                    &=\leadingCoefficient{\a*\d}x^3\coefficient{\a*\e}x^2\coefficient{\b*\d}x^2\coefficient{\b*\e}x\coefficient{\c*\d}x\Number{\c*\e}\\
+                    &=\leadingCoefficient{\a*\d}x^3\ifthenelse{\fpeval{\a*\e+\b*\d}=0}{}{\coefficient{\a*\e+\b*\d}x^2}\ifthenelse{\fpeval{\b*\e+\c*\d}=0}{}{\coefficient{\b*\e+\c*\d}x}\Number{\c*\e}
+				\end{align*}
+			\end{solutionordottedlines}
+	}
+
+	\end{questions}
+\newpage
+\end{document}

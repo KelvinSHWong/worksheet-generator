@@ -1,4 +1,5 @@
-\documentclass[12pt,a4paper, addpoints] {exam}
+\documentclass[12pt, a4paper, addpoints] {exam}
+\usepackage[fontsize=13pt]{scrextend}
 \usepackage{amsmath, amsthm, amssymb}
 \usepackage{calculator}
 \usepackage{CJK}
@@ -28,6 +29,8 @@
         }
 }
 
+%Truncating the index if it is 1
+\newcommand{\Exp}[1]{\pgfmathtruncatemacro\temp{#1}\ifthenelse{\temp=1}{}{\temp}}
 
 
 \begin{document}
@@ -38,7 +41,7 @@
 \headrule 
 \footrule
 
-\printanswers %comment this line to hide the answers
+%\printanswers %comment this line to hide the answers
 
 \header	{\textsf{S3 Mathematics} \\ \textsf{Laws of Indices - Revision WS}}
 		{}
@@ -66,12 +69,13 @@
 				\begin{align*}
                         \frac{(x^{\ifthenelse{\m=1}{}{\m}}y^{\ifthenelse{\p=1}{}{\p}})^{\s}}{x^{\ifthenelse{\n=1}{}{\n}}y^{\ifthenelse{\q=1}{}{\q}}} &= \frac{x^{\ifthenelse{\fpeval{\m*\s}=1}{}{\fpeval{\m*\s}}}y^{\ifthenelse{\fpeval{\p*\s}=1}{}{\fpeval{\p*\s}}}}{x^{\ifthenelse{\n=1}{}{\n}}y^{\ifthenelse{\q=1}{}{\q}}}\\
 					&=x^{\fpeval{\m*\s}-\ifthenelse{\n>0}{\n}{(\n)}}y^{\fpeval{\p*\s}-\ifthenelse{\q>0}{\q}{(\q)}}\\
-                        &=x^{\fpeval{\m*\s-\n}}y^{\fpeval{\p*\s-\q}}\\
+                        &=x^{\Exp{\fpeval{\m*\s-\n}}}y^{\Exp{\fpeval{\p*\s-\q}}}\\
                         %Positive Indices
                         \ifthenelse{\fpeval{\m*\s-\n}>0}{\ifthenelse{\fpeval{\p*\s-\q}>0}{}{&=\posIn{\fpeval{\m*\s-\n}}{\fpeval{\p*\s-\q}}}}{&=\posIn{\fpeval{\m*\s-\n}}{\fpeval{\p*\s-\q}}}
 				\end{align*}
 			\end{solutionordottedlines}
 	}
+        \newpage
 
         %Laws of Indices: Type II
         \foreach \i in {1,...,5}{  %change the last number to get more questions
@@ -91,12 +95,13 @@
 				\begin{align*}
                         \frac{x^{\ifthenelse{\m=1}{}{\m}}y^{\ifthenelse{\p=1}{}{\p}}}{(x^{\ifthenelse{\n=1}{}{\n}}y^{\ifthenelse{\q=1}{}{\q}})^{\s}} &= \frac{x^{\ifthenelse{\m=1}{}{\m}}y^{\ifthenelse{\p=1}{}{\p}}}{x^{\ifthenelse{\fpeval{\n*\s}=1}{}{\fpeval{\n*\s}}}y^{\ifthenelse{\fpeval{\q*\s}=1}{}{\fpeval{\q*\s}}}}\\
 					&=x^{\m-\ifthenelse{\fpeval{\n*\s}>0}{\fpeval{\n*\s}}{(\fpeval{\n*\s})}}y^{\p-\ifthenelse{\fpeval{\q*\s}>0}{\fpeval{\q*\s}}{(\fpeval{\q*\s})}}\\
-                        &=x^{\fpeval{\m-\n*\s}}y^{\fpeval{\p-\q*\s}}\\
+                        &=x^{\Exp{\fpeval{\m-\n*\s}}}y^{\Exp{\fpeval{\p-\q*\s}}}\\
                         %Positive Indices
                         \ifthenelse{\fpeval{\m-\n*\s}>0}{\ifthenelse{\fpeval{\p-\q*\s}>0}{}{&=\posIn{\fpeval{\m-\n*\s}}{\fpeval{\p-\q*\s}}}}{&=\posIn{\fpeval{\m-\n*\s}}{\fpeval{\p-\q*\s}}}
 				\end{align*}
 			\end{solutionordottedlines}
 	}
+        \newpage
         
         %Laws of Indices: Type III
 	\foreach \i in {1,...,5}{  %change the last number to get more questions
@@ -116,7 +121,7 @@
 				\begin{align*}
                         \frac{x^{\ifthenelse{\m=1}{}{\m}}}{y^{\ifthenelse{\p=1}{}{\p}}}\left(\frac{y^{\ifthenelse{\q=1}{}{\q}}}{x^{\ifthenelse{\n=1}{}{\n}}}\right)^{\s} &= \frac{x^{\ifthenelse{\m=1}{}{\m}}}{y^{\ifthenelse{\p=1}{}{\p}}}\cdot\frac{y^{\ifthenelse{\fpeval{\q*\s}=1}{}{\fpeval{\q*\s}}}}{x^{\ifthenelse{\fpeval{\n*\s}=1}{}{\fpeval{\n*\s}}}}\\
 					&=x^{\m-\ifthenelse{\fpeval{\n*\s}>0}{\fpeval{\n*\s}}{(\fpeval{\n*\s})}}y^{\fpeval{\q*\s}-\ifthenelse{\p>0}{\p}{(\p)}}\\
-                        &=x^{\fpeval{\m-\n*\s}}y^{\fpeval{\q*\s-\p}}\\
+                        &=x^{\Exp{\fpeval{\m-\n*\s}}}y^{\Exp{\fpeval{\q*\s-\p}}}\\
                         %Positive Indices
                         \ifthenelse{\fpeval{\m-\n*\s}>0}{\ifthenelse{\fpeval{\q*\s-\p}>0}{}{&=\posIn{\fpeval{\m-\n*\s}}{\fpeval{\q*\s-\p}}}}{&=\posIn{\fpeval{\m-\n*\s}}{\fpeval{\q*\s-\p}}}
 				\end{align*}
